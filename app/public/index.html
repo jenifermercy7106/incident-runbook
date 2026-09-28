@@ -7,46 +7,47 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
+  <header class="hero">
     <h1>Incident Response Runbook</h1>
-    <p>Quick playbooks for common DevOps incidents</p>
+    <p>Step-by-step playbooks for common DevOps incidents</p>
   </header>
 
   <main>
-    <details>
-      <summary>Server Down</summary>
-      <ol>
-        <li>Confirm the outage (ping, curl the health URL).</li>
-        <li>Check if the server or VM is running in the cloud console.</li>
-        <li>Check recent deployments or changes.</li>
-        <li>Restart the service and watch the logs.</li>
-        <li>Notify the team and write down the timeline.</li>
-      </ol>
-    </details>
+    <section class="severity-guide">
+      <div class="sev-card sev1">
+        <h3>SEV1 &middot; Critical</h3>
+        <p>Site down or data at risk. Respond immediately, all hands on deck.</p>
+      </div>
+      <div class="sev-card sev2">
+        <h3>SEV2 &middot; Major</h3>
+        <p>Service degraded or partly broken. Respond within 30 minutes.</p>
+      </div>
+      <div class="sev-card sev3">
+        <h3>SEV3 &middot; Minor</h3>
+        <p>Small impact, workaround exists. Handle next working day.</p>
+      </div>
+    </section>
 
-    <details>
-      <summary>High CPU Usage</summary>
-      <ol>
-        <li>Find the busy process (top / htop).</li>
-        <li>Check if traffic suddenly increased.</li>
-        <li>Look at application logs for errors or loops.</li>
-        <li>Scale up or restart the affected service.</li>
-        <li>Record the root cause after recovery.</li>
-      </ol>
-    </details>
+    <section class="controls">
+      <input id="search" type="search" placeholder="Search runbooks (e.g. pod, disk, certificate)..." aria-label="Search runbooks">
+      <div class="filters" id="filters">
+        <button class="chip active" data-sev="ALL">All</button>
+        <button class="chip" data-sev="SEV1">SEV1</button>
+        <button class="chip" data-sev="SEV2">SEV2</button>
+        <button class="chip" data-sev="SEV3">SEV3</button>
+      </div>
+    </section>
 
-    <details>
-      <summary>Deployment Failed</summary>
-      <ol>
-        <li>Check the pipeline logs to see which stage failed.</li>
-        <li>Verify the Docker image built and pushed correctly.</li>
-        <li>Check Kubernetes pods (kubectl get pods, kubectl describe pod).</li>
-        <li>Roll back to the last working version.</li>
-        <li>Fix the issue and redeploy.</li>
-      </ol>
-    </details>
+    <div class="meta">
+      <span id="count"></span>
+      <button id="reset" class="link-btn">Reset all checklists</button>
+    </div>
+
+    <section id="runbooks"></section>
+    <p id="empty" class="empty" hidden>No runbooks match your search.</p>
   </main>
 
-  <footer>Incident Response Runbook Site - v2 (deployed by Jenkins)</footer>
+  <footer>Incident Response Runbook Site - v3 (deployed by Jenkins)</footer>
+  <script src="script.js"></script>
 </body>
 </html>
