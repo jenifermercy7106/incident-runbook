@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: runbook-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: runbook
+  template:
+    metadata:
+      labels:
+        app: runbook
+    spec:
+      containers:
+        - name: runbook
+          image: incident-runbook:1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
