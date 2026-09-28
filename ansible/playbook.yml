@@ -1,0 +1,35 @@
+- name: Configure server
+  hosts: servers
+  become: true
+  tasks:
+    - name: Install Docker
+      ansible.builtin.apt:
+        name: docker.io
+        state: present
+        update_cache: true
+
+    - name: Start and enable Docker
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Let ubuntu user run Docker
+      ansible.builtin.user:
+        name: ubuntu
+        groups: docker
+        append: true
+
+    - name: Create app config folder
+      ansible.builtin.file:
+        path: /opt/runbook
+        state: directory
+        mode: "0755"
+
+    - name: Write app config file
+      ansible.builtin.copy:
+        dest: /opt/runbook/app.conf
+        content: |
+          APP_NAME=incident-runbook
+          APP_PORT=80
+        mode: "0644"
